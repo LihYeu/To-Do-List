@@ -91,6 +91,8 @@ document.addEventListener("keyup",function(even){
                 trash : false
             });
 
+            id++;
+
             // get item from local storage (code must be added to the list array)
             localStorage.setItem("TODO", JSON.stringify(LIST));
         }
