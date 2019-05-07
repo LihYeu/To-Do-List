@@ -63,7 +63,7 @@ body{
 .header{
     width: 380px;
     height:200px;
-    background-image: url('../img/bg2.jpg');
+    background-image: url('../img/bg1.jpg');
     background-size: 100% 200%;
     background-repeat: no-repeat;
     border-radius: 15px 15px 0 0;
@@ -172,7 +172,7 @@ body{
 }
 
 .add-to-do input{
-    position: absolute;
+    position: right;
     left: 50px;
     height: 35px;
     width: 310px;

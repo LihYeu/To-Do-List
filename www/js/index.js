@@ -82,7 +82,7 @@ document.addEventListener("keyup",function(even){
         
         // If the input isnt empty
         if(toDo){
-            addToDo(toDo);
+            addToDo(toDo, id, false, false);
 
             LIST.push({
                 name : toDo,
@@ -92,6 +92,8 @@ document.addEventListener("keyup",function(even){
             });
 
             id++;
+
+            input.value = "";
 
             // get item from local storage (code must be added to the list array)
             localStorage.setItem("TODO", JSON.stringify(LIST));
@@ -105,7 +107,7 @@ document.addEventListener("keyup",function(even){
 function completeToDo(element){
     element.classList.toggle(CHECK);
     element.classList.toggle(UNCHECK);
-    element.parentNode.querySelector("text").classList.toggle(LINE_THROUGH);
+    element.parentNode.querySelector(".text").classList.toggle(LINE_THROUGH);
 
     LIST[element.id].done = LIST[element.id].done ? false : true;
 }
@@ -119,49 +121,15 @@ function removeToDo(element){
 
 // Function to target item dynamically
 list.addEventListener("click", function(event){
-    const element = event.target;
-    const elementJob = element.attributes.job.value;
+    const element = event.target; // return the clicked element in the list
+    const elementJob = element.attributes.job.value; // complete or delete
 
     if(elementJob == "complete"){
-        completeToDo(element); // return the clicked element in the list
-    }else if(elementJob == "delete"){  // complete or delete
+        completeToDo(element); 
+    }else if(elementJob == "delete"){  
         removeToDo(element);
     }
 
     // get item from local storage (code must be added to the list array)
     localStorage.setItem("TODO", JSON.stringify(LIST));
 });
-
-let app = {
-    init: function(){
-        document.getElementById('btn').addEventListener('click',app.takephoto);
-
-    },
-    takephoto: function(){
-        let opts = {
-            quality: 80,
-            destinationType: Camera.DestinationType.FILE_URI,
-            sourceType: Camera.PictureSourceType.CAMERA,
-            mediaType: Camera.MediaType.PICTURE,
-            encodingType: Camera.EncodingType.JPEG,
-            cameraDirection: Camera.Direction.BACK,
-            targetWidth: 300,
-            targetHeight: 400
-         };
-
-        navigator.camera.getPicture(app.ftw, app.wtf, opts);
-
-    },
-    ftw: function(imgURI){
-
-        document.getElementById('msg').textContent = imgURI;
-        document.getElementById('photo').src = imgURI;
-    },
-    wtf: function(msg){
-
-        document.getElementById('msg').textContext = msg;
-
-    }
-};
-
-document.addEventListener('deviceready', app.init);

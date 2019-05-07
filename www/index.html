@@ -3,8 +3,16 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta http-equiv="Content-Security-Policy" 
+        content="default-src 'self' data: gap: https://ssl.gstatic.com 'unsafe-eval'; 
+        style-src 'self' 'unsafe-inline'; 
+        media-src *; 
+        script-src 'self' 'unsafe-inline';
+        img-src 'self' data: content:;">
+                <meta name="format-detection" content="telephone=no">
+        <meta name="msapplication-tap-highlight" content="no">
         <link rel="stylesheet" href="css/font-awesome.css">
-        <link rel="stylesheet" href="https//fonts.googleapis.com/css?family=Titillium+Web">
+        <link rel="stylesheet" href="https//fonts.googleapis.com/css?family=Titillium+Web"> 
         <link rel="stylesheet" type="text/css" href="css/Style.css">
         <title>To Do List</title>
     </head>
@@ -14,8 +22,8 @@
                 <div class="clear">
                     <i class="fa fa-refresh"></i>
                 </div>
+                <div id="date"></div>
             </div>
-            <div id="date"></div>
             <div class="content">
                     <ul id="list">
                             <li class="item">
@@ -31,14 +39,43 @@
                     <input type="text" id="input" placeholder="Add to do">
                     
             </div>
-        <div class="page">
-            <p><img src="img/logo.png" alt="image" id="photo" /></p>
-            <p><button id="btn">Take Picture</button></p>
-            <p id="msg"></p>
-        </div>   
 
         </div>
-      
+        <p><img src="img/logo.png" alt="image" id="photo" /></p>
+        <p><button id="picture">Take Picture</button></p>
+        <p id="msg"></p>
         <script src="js/index.js"></script>
+        <script>
+
+        let app = {
+            init: function(){
+                document.getElementById("picture").addEventListener("click", app.takephoto);
+            },
+            takephoto: function(){
+                let opts = {
+                    quality: 80,
+                    destinationType: Camera.DestinationType.FILE_URI,
+                    sourceType: Camera.PictureSourceType.CAMERA,
+                    mediaType: Camera.MediaType.PICTURE,
+                    encodingType: Camera.EncodingType.JPEG,
+                    cameraDirection: Camera.Direction.BACK,
+                    targetWidth: 300,
+                    targetHeight: 400
+                };
+                
+                navigator.camera.getPicture(app.ftw, app.wtf, opts);
+            },
+            ftw: function(imgURI){
+                document.getElementById('msg').textContent = imgURI;
+                document.getElementById('photo').src = imgURI;
+                
+            },
+            wtf: function(msg){
+                document.getElementById('msg').textContent = msg;
+            }
+            };
+            document.addEventListener('deviceready', app.init);
+        </script>
     </body>
 </html>
+
